@@ -9,6 +9,7 @@ var PiGlow = function(_target){
     
     var J,
 		I,
+		mousedown=false,
 		currenthue,
 		lastsenthue,
         _w = 320,
@@ -252,8 +253,9 @@ var PiGlow = function(_target){
         var drag_me=function(e){
                    e.preventDefault();
 
-			if(e.originalEvent.touches || e.originalEvent.changedTouches)
+			if(e.originalEvent.touches || e.originalEvent.changedTouches){
 			e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+			}else if(!mousedown){return false;}
 
               var pos = {},
                      deg;
@@ -307,7 +309,8 @@ var PiGlow = function(_target){
                     
             };
    
-        
+        J("#canvas").on("mousedown",function(){mousedown=true;});
+        J("#canvas").on("mouseup",function(){mousedown=false;});
         J("#canvas").on("mousemove",drag_me);  J("#canvas").on("touchmove",drag_me);
 
 		I = setInterval(function(){
