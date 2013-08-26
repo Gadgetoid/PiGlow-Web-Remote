@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from flask import Flask
 import signal
 import sys
@@ -119,6 +120,16 @@ def set_brightness(brightness):
 	else:
 		return "Brightness must be in range 0-255"
 
+@app.route('/yellow/<intensity>')
+def set_yellow(intensity):
+	if intensity <= 255 and intensity >= 0:
+		wpi.piGlowRing(YELLOW,intensity)
+
+@app.route('/orange/<intensity>')
+def set_orange(intensity):
+	if intensity <= 255 and intensity >= 0:
+		wpi.piGlowRing(ORANGE,intensity)
+
 @app.route('/white/<white>')
 def set_white(white):
 	#global saved_white
@@ -129,6 +140,13 @@ def set_white(white):
 		return "White set to " + str(white)
 	else:
 		return "White must be in range 0-255"
+
+
+@app.route('/fasthue/<hue>')
+def fast_hue(hue):
+	hue = int(hue)
+	piglow_change_hue(hue)
+	return "1"
 
 @app.route('/hue/<hue>')
 def set_hue(hue):
